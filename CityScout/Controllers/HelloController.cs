@@ -12,7 +12,7 @@ public class HelloController : ControllerBase
     {
         _context = context;
     }
-    [HttpGet]
+    [HttpGet("hola")]
     public IActionResult GetHello()
     {
         return Ok("Hello may ban test api ne hihi!");

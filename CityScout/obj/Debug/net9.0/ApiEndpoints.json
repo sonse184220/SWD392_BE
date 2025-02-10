@@ -2,7 +2,7 @@
   {
     "ContainingType": "HelloController",
     "Method": "GetHello",
-    "RelativePath": "api/Hello",
+    "RelativePath": "api/Hello/hola",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -19,7 +19,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Repository.Models.Role, DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Repository.Models.Role, Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

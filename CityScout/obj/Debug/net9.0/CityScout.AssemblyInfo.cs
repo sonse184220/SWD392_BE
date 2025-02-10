@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CityScout")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3afb9fac6b9e9590198921b5434de177fd65d4a3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fc45c99f474939f9dbcfe02a33e27e4d7ef6775")]
 [assembly: System.Reflection.AssemblyProductAttribute("CityScout")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CityScout")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
