@@ -10,52 +10,33 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Hello/hola": {
-      "get": {
+    "/cityscout/auth/firebase": {
+      "post": {
         "tags": [
-          "Hello"
+          "Auth"
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FirebaseTokenRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FirebaseTokenRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FirebaseTokenRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Hello/roles": {
-      "get": {
-        "tags": [
-          "Hello"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Role"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Role"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Role"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -63,352 +44,11 @@
   },
   "components": {
     "schemas": {
-      "Account": {
+      "FirebaseTokenRequest": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userName": {
+          "firebaseToken": {
             "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "roleId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "blogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Blog"
-            },
-            "nullable": true
-          },
-          "chatHistoryReceivers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChatHistory"
-            },
-            "nullable": true
-          },
-          "chatHistorySenders": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChatHistory"
-            },
-            "nullable": true
-          },
-          "reviews": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Review"
-            },
-            "nullable": true
-          },
-          "role": {
-            "$ref": "#/components/schemas/Role"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Blog": {
-        "type": "object",
-        "properties": {
-          "blogId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "destinationId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "destination": {
-            "$ref": "#/components/schemas/Destination"
-          },
-          "user": {
-            "$ref": "#/components/schemas/Account"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ChatHistory": {
-        "type": "object",
-        "properties": {
-          "chatId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "senderId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "receiverId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "receiver": {
-            "$ref": "#/components/schemas/Account"
-          },
-          "sender": {
-            "$ref": "#/components/schemas/Account"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Contact": {
-        "type": "object",
-        "properties": {
-          "contactId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "link": {
-            "type": "string",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "destinationId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "destination": {
-            "$ref": "#/components/schemas/Destination"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Destination": {
-        "type": "object",
-        "properties": {
-          "destinationId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "destinationName": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "string",
-            "nullable": true
-          },
-          "blogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Blog"
-            },
-            "nullable": true
-          },
-          "contacts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Contact"
-            },
-            "nullable": true
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Event"
-            },
-            "nullable": true
-          },
-          "openingHours": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OpeningHour"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Event": {
-        "type": "object",
-        "properties": {
-          "eventId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "eventName": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "nullable": true
-          },
-          "destinationId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "destination": {
-            "$ref": "#/components/schemas/Destination"
-          }
-        },
-        "additionalProperties": false
-      },
-      "OpeningHour": {
-        "type": "object",
-        "properties": {
-          "openingId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "destinationId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "dayOfWeek": {
-            "type": "string",
-            "nullable": true
-          },
-          "openTime": {
-            "type": "string",
-            "format": "time",
-            "nullable": true
-          },
-          "closeTime": {
-            "type": "string",
-            "format": "time",
-            "nullable": true
-          },
-          "isClosed": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "destination": {
-            "$ref": "#/components/schemas/Destination"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Review": {
-        "type": "object",
-        "properties": {
-          "reviewId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "ratingStar": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "user": {
-            "$ref": "#/components/schemas/Account"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Role": {
-        "type": "object",
-        "properties": {
-          "roleId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "roleName": {
-            "type": "string",
-            "nullable": true
-          },
-          "accounts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Account"
-            },
             "nullable": true
           }
         },

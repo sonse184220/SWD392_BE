@@ -1,32 +1,18 @@
 [
   {
-    "ContainingType": "HelloController",
-    "Method": "GetHello",
-    "RelativePath": "api/Hello/hola",
-    "HttpMethod": "GET",
+    "ContainingType": "CityScout.Controllers.AuthController",
+    "Method": "Authenticate",
+    "RelativePath": "cityscout/auth/firebase",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "HelloController",
-    "Method": "GetRoles",
-    "RelativePath": "api/Hello/roles",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Repository.Models.Role, Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "request",
+        "Type": "Repository.RequestModels.FirebaseTokenRequest",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   }
 ]
