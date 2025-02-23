@@ -5,8 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository;
+using Repository.Interfaces;
 using Repository.Models;
+using Repository.Repositories;
 using Service;
+using Service.Interfaces;
+using Service.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +24,8 @@ if (FirebaseApp.DefaultInstance == null)
 builder.Services.AddScoped<CityScoutContext>();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
 
 builder.Services.AddControllers();
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
