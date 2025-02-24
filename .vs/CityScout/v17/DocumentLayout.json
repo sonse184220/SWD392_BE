@@ -3,8 +3,24 @@
   "WorkspaceRootPath": "C:\\ResourceCode\\SWD392\\SWD392_BE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E30CEFFE-AA48-4662-8341-E3E3181FAE2B}|Repository\\Repository.csproj|c:\\resourcecode\\swd392\\swd392_be\\repository\\requestmodels\\pushnotificationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E30CEFFE-AA48-4662-8341-E3E3181FAE2B}|Repository\\Repository.csproj|solutionrelative:repository\\requestmodels\\pushnotificationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12642D19-E2C7-4802-8EAD-22B581A1D370}|CityScout\\CityScout.csproj|c:\\resourcecode\\swd392\\swd392_be\\cityscout\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{12642D19-E2C7-4802-8EAD-22B581A1D370}|CityScout\\CityScout.csproj|solutionrelative:cityscout\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC52BAFE-BD8C-4057-B62A-EADEFFBDEE5B}|Service\\Service.csproj|c:\\resourcecode\\swd392\\swd392_be\\service\\services\\fcmservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC52BAFE-BD8C-4057-B62A-EADEFFBDEE5B}|Service\\Service.csproj|solutionrelative:service\\services\\fcmservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AC52BAFE-BD8C-4057-B62A-EADEFFBDEE5B}|Service\\Service.csproj|c:\\resourcecode\\swd392\\swd392_be\\service\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AC52BAFE-BD8C-4057-B62A-EADEFFBDEE5B}|Service\\Service.csproj|solutionrelative:service\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12642D19-E2C7-4802-8EAD-22B581A1D370}|CityScout\\CityScout.csproj|c:\\resourcecode\\swd392\\swd392_be\\cityscout\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12642D19-E2C7-4802-8EAD-22B581A1D370}|CityScout\\CityScout.csproj|solutionrelative:cityscout\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,20 +30,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\ResourceCode\\SWD392\\SWD392_BE\\CityScout\\appsettings.json",
+              "RelativeDocumentMoniker": "CityScout\\appsettings.json",
+              "ToolTip": "C:\\ResourceCode\\SWD392\\SWD392_BE\\CityScout\\appsettings.json",
+              "RelativeToolTip": "CityScout\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-24T10:34:00.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FcmService.cs",
+              "DocumentMoniker": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Service\\Services\\FcmService.cs",
+              "RelativeDocumentMoniker": "Service\\Services\\FcmService.cs",
+              "ToolTip": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Service\\Services\\FcmService.cs",
+              "RelativeToolTip": "Service\\Services\\FcmService.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T10:33:43.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PushNotificationRequest.cs",
+              "DocumentMoniker": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Repository\\RequestModels\\PushNotificationRequest.cs",
+              "RelativeDocumentMoniker": "Repository\\RequestModels\\PushNotificationRequest.cs",
+              "ToolTip": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Repository\\RequestModels\\PushNotificationRequest.cs",
+              "RelativeToolTip": "Repository\\RequestModels\\PushNotificationRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T10:33:06.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NotificationController.cs",
+              "DocumentMoniker": "C:\\ResourceCode\\SWD392\\SWD392_BE\\CityScout\\Controllers\\NotificationController.cs",
+              "RelativeDocumentMoniker": "CityScout\\Controllers\\NotificationController.cs",
+              "ToolTip": "C:\\ResourceCode\\SWD392\\SWD392_BE\\CityScout\\Controllers\\NotificationController.cs",
+              "RelativeToolTip": "CityScout\\Controllers\\NotificationController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T10:33:05.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Service\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Service\\Services\\AuthService.cs",
               "ToolTip": "C:\\ResourceCode\\SWD392\\SWD392_BE\\Service\\Services\\AuthService.cs",
               "RelativeToolTip": "Service\\Services\\AuthService.cs",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAqwEkAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T08:53:53.415Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:27:30.865Z"
             }
           ]
         }

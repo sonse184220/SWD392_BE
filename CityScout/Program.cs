@@ -1,3 +1,4 @@
+using CityScout;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,29 +25,10 @@ if (FirebaseApp.DefaultInstance == null)
 builder.Services.AddScoped<CityScoutContext>();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
-builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
-builder.Services.AddScoped<IDestinationService, DestinationService>();
-
+//jwt
+builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.AddControllers();
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(secretKey),
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(options =>
@@ -79,6 +61,19 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var roleRepository = services.GetRequiredService<IRoleRepository>();
+        await roleRepository.SeedRoleAsync();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error seeding data: {ex.Message}");
+    }
+}
 
 app.UseCors("AllowAll");
 app.UseSwagger();

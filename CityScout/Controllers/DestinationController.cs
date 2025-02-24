@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CityScout.Controllers
 {
-    [Route("CityScout/destinations")]
+    [Route("cityscout/destinations")]
     [ApiController]
     public class DestinationController : ControllerBase
     {

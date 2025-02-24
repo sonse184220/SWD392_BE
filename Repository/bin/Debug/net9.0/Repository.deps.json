@@ -9,6 +9,7 @@
       "Repository/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "9.0.1",
+          "Microsoft.EntityFrameworkCore.Design": "9.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.1",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.1",
           "Microsoft.Extensions.Configuration": "9.0.1",

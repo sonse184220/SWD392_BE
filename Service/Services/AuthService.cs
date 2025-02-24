@@ -1,6 +1,7 @@
 ﻿using FirebaseAdmin.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Repository.Enums;
 using Repository.Interfaces;
 using Repository.Models;
 using Repository.RequestModels;
@@ -8,6 +9,7 @@ using Repository.ViewModels;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -20,31 +22,41 @@ namespace Service.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IConfiguration _configuration;
-        public AuthService(IAccountRepository accountRepository,IConfiguration configuration)
+        private readonly IRoleRepository _roleRepository;
+        public AuthService(IAccountRepository accountRepository,IConfiguration configuration, IRoleRepository roleRepository)
         {
             _accountRepository = accountRepository;
-            _configuration = configuration; 
+            _configuration = configuration;
+            _roleRepository = roleRepository;
         }
         public async Task<AccountViewModel> AuthenticateWithFirebaseAsync(FirebaseTokenRequest request)
         {
             try
             {
                 FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.FirebaseToken);
-                var uid = decodedToken.Uid;
                 var email = decodedToken.Claims.ContainsKey("email") ? decodedToken.Claims["email"].ToString() : null;
                 var name = decodedToken.Claims.ContainsKey("name") ? decodedToken.Claims["name"].ToString() : null;
-                var user = await _accountRepository.GetByUidAsync(uid);
+                var user = await _accountRepository.GetByEmailAsync(email);
                 if (user == null)
                 {
+                    var userRole = await _roleRepository.GetRoleByNameAsync(UserRole.User.ToString());
+                    if (userRole == null)
+                    {
+                        throw new Exception("User role not found in database");
+                    }
+                    var userId = Guid.NewGuid();
                     user = new Account()
                     {
                         Email = email,
-                        UserId = uid,
+                        UserId = userId.ToString(),
                         UserName = name,
+                        RoleId = userRole.RoleId,
                     };
                     await _accountRepository.CreateAccountAsync(user);
+                    user = await _accountRepository.GetByEmailAsync(email);
                 }
-                var accessToken = GenerateAccessToken(user);
+                var role = user.Role.RoleName;
+                var accessToken = GenerateAccessToken(user,role);
                 var accountRespone = new AccountViewModel()
                 {
                     accessToken = accessToken,
@@ -60,7 +72,7 @@ namespace Service.Services
                 throw new Exception("Error authorization:" + ex.Message);
             }
         }
-        private string GenerateAccessToken(Account account)
+        private string GenerateAccessToken(Account account,string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = _configuration["JwtSettings:SecretKey"];
@@ -75,7 +87,8 @@ namespace Service.Services
                 {
                      new Claim(ClaimTypes.NameIdentifier, account.UserId),
                     new  Claim(ClaimTypes.Email,account.Email),
-                    new Claim(ClaimTypes.Name,account.UserName)
+                    new Claim(ClaimTypes.Name,account.UserName),
+                    new Claim(ClaimTypes.Role, role)
 
                 }),
                 Expires = DateTime.UtcNow.AddDays(expiryTime),

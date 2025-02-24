@@ -197,7 +197,6 @@ C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets\msbu
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.CityScout.props
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.CityScout.props
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets.pack.json
-C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\CityScout.csproj.Up2Date
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\CityScout.genruntimeconfig.cache
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\ref\CityScout.dll
@@ -211,3 +210,6 @@ C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\System.CodeDom.dll
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\System.Management.dll
 C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\runtimes\win\lib\net7.0\System.Management.dll
+C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\firebase-adminsdk.json
+C:\ResourceCode\SWD392\SWD392_BE\CityScout\bin\Debug\net9.0\firebase-fcm.json
+C:\ResourceCode\SWD392\SWD392_BE\CityScout\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
