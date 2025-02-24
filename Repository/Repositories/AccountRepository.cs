@@ -19,13 +19,10 @@ namespace Repository.Repositories
        
         public async Task<Account> GetByEmailAsync(string email)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
+            return await _context.Accounts.Include(a=>a.Role).FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task<Account> GetByUidAsync(string uid)
-        {
-            return await GetByIdAsync(uid);
-        }
+        
 
         public async Task<int> CreateAccountAsync(Account account)
         {

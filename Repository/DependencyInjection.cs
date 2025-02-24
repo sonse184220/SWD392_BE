@@ -16,6 +16,7 @@ namespace Repository
         {
             service.AddTransient<IAccountRepository, AccountRepository>();
             service.AddTransient<IRoleRepository, RoleRepository>();
+            service.AddTransient<IDestinationRepository, DestinationRepository>();
             return service;
         }
     }

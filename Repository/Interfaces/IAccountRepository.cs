@@ -11,7 +11,6 @@ namespace Repository.Interfaces
     {
         
         Task<Account> GetByEmailAsync(string email);
-        Task<Account> GetByUidAsync(string uid);
         Task<int> CreateAccountAsync(Account account);
 
     }

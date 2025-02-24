@@ -13,7 +13,8 @@ namespace Service
     {
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
-            service.AddScoped<IAuthService, AuthService>(); 
+            service.AddScoped<IAuthService, AuthService>();
+            service.AddScoped<IDestinationService, DestinationService>();
             return service;
         }
     }
