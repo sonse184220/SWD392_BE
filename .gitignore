@@ -1,0 +1,10 @@
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.vscode/
+
+# Ignore build output
+bin/
+obj/
