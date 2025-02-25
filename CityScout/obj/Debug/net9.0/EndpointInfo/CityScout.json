@@ -482,10 +482,6 @@
       "PushNotificationRequest": {
         "type": "object",
         "properties": {
-          "platform": {
-            "type": "string",
-            "nullable": true
-          },
           "deviceToken": {
             "type": "string",
             "nullable": true
