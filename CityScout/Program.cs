@@ -25,6 +25,8 @@ if (FirebaseApp.DefaultInstance == null)
 builder.Services.AddScoped<CityScoutContext>();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddHttpClient<IFcmService, FcmService>();
+
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.AddControllers();
