@@ -10,6 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Repository.ViewModels;
+using FirebaseAdmin;
+using Firebase.Database;
+using Firebase.Database.Query;
+
 
 namespace Service.Services
 {
@@ -17,12 +21,14 @@ namespace Service.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string firebaseProjectId;
-        private readonly string serviceAccountPath;
+        //private readonly string serviceAccountPath;
+        private readonly string firebaseurl;
         public FcmService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             firebaseProjectId = configuration["Firebase:ProjectId"];
-            serviceAccountPath = configuration["Firebase:ServiceAccountPath"];
+            //serviceAccountPath = configuration["Firebase:ServiceAccountPath"];
+            firebaseurl = configuration["Firebase:FBDataBase"];
         }
         
         public async Task<NotificationViewModel> SendPushNotificationAsync(string deviceToken, string title, string body)
@@ -72,10 +78,25 @@ namespace Service.Services
         }
         private async Task<string> GetAccessTokenAsync()
         {
-            GoogleCredential credential = GoogleCredential.FromFile(serviceAccountPath).
+            string serviceAccountJson = await GetServiceAccountJsonAsync();
+            GoogleCredential credential = GoogleCredential.FromJson(serviceAccountJson).
                 CreateScoped("https://www.googleapis.com/auth/firebase.messaging");
             var token = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
             return token;
+        }
+        private async Task<string> GetServiceAccountJsonAsync()
+        {
+            string firebaseDatabaseUrl = firebaseurl.TrimEnd('/');
+            var firebaseClient = new FirebaseClient(firebaseDatabaseUrl);
+
+            var serviceAccount = await firebaseClient
+                .Child("service_account")
+                .OnceSingleAsync<object>(); 
+
+            if (serviceAccount == null)
+                throw new Exception("service_account not found in real time db");
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(serviceAccount);
         }
     };
 }
