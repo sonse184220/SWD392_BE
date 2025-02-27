@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="FirebaseAdmin" Version="3.1.0" />
+    <PackageReference Include="FirebaseDatabase.net" Version="4.2.0" />
+    <PackageReference Include="Google.Apis" Version="1.69.0" />
   </ItemGroup>
 
 </Project>
