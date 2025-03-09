@@ -16,8 +16,8 @@ namespace CityScout.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
-        public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileRequest request)
+        //[Authorize]
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequest request)
         {
             request.UserId = id;
             var result = await _profileService.UpdateProfileAsync(request);
@@ -27,8 +27,8 @@ namespace CityScout.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetProfile(int id)
+        //[Authorize]
+        public async Task<IActionResult> GetProfile(string id)
         {
             var profile = await _profileService.GetProfileByIdAsync(id);
             if (profile == null)

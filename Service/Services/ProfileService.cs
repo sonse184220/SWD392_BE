@@ -17,7 +17,7 @@ namespace Service.Services
             return await _accountRepository.UpdateProfileAsync(request);
         }
 
-        public async Task<object> GetProfileByIdAsync(int userId)
+        public async Task<object> GetProfileByIdAsync(string userId)
         {
             return await _accountRepository.GetProfileByIdAsync(userId.ToString());
         }
