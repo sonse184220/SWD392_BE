@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 using Repository.Models;
+using CityScout.DTOs;
 
 namespace CityScout.Controllers
 {
@@ -33,11 +34,18 @@ namespace CityScout.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCity([FromBody] City city)
+        public async Task<IActionResult> CreateCity([FromBody] CityCreateDto cityDto)
         {
+            var city = new City
+            {
+                CityId = cityDto.CityId,
+                Name = cityDto.Name,
+                Description = cityDto.Description
+            };
+
             var createdId = await _cityService.CreateAsync(city);
-            city.CityId = createdId; 
-            return CreatedAtAction(nameof(GetCity), new { id = city.CityId }, city);
+
+            return CreatedAtAction(nameof(GetCity), new { id = createdId }, city);
         }
 
         [HttpPut("{id}")]
