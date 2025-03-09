@@ -38,6 +38,10 @@ builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+
+
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.AddControllers();
