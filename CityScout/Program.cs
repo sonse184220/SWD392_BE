@@ -22,6 +22,7 @@ if (FirebaseApp.DefaultInstance == null)
         Credential = GoogleCredential.FromFile("firebase-adminsdk.json")
     });
 }
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<CityScoutContext>();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
