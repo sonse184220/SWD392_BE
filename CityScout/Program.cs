@@ -26,6 +26,8 @@ builder.Services.AddScoped<CityScoutContext>();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddHttpClient<IFcmService, FcmService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);

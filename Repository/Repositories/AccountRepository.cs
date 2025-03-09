@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using PsyHealth.Repositories.Base;
 using Repository.Interfaces;
 using Repository.Models;
+using Repository.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,7 +29,37 @@ namespace Repository.Repositories
         {
             return await CreateAsync(account);
         }
+        public async Task<bool> UpdateProfileAsync(UpdateProfileRequest request)
+        {
+            var user = await _context.Accounts.FirstOrDefaultAsync(x => x.UserId == request.UserId);
+            if (user == null) return false;
 
-        
+            if (!string.IsNullOrEmpty(request.Username))
+                user.UserName = request.Username;
+            if (!string.IsNullOrEmpty(request.PhoneNumber))
+                user.PhoneNumber = request.PhoneNumber;
+            if (!string.IsNullOrEmpty(request.Address))
+                user.Address = request.Address;
+
+            await UpdateAsync(user);
+            return true;
+        }
+
+        public async Task<object> GetProfileByIdAsync(string userId)
+        {
+            return await _context.Accounts
+                .Where(u => u.UserId == userId.ToString()) 
+                .Select(u => new
+                {
+                    u.UserId,
+                    u.UserName,
+                    u.PhoneNumber,
+                    u.Address
+                })
+                .FirstOrDefaultAsync();
+        }
+
+
+
     }
 }
