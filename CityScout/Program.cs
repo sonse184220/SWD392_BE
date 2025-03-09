@@ -36,7 +36,8 @@ builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
-
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.AddControllers();
