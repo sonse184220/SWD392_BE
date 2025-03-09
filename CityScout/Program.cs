@@ -1,4 +1,6 @@
 using CityScout;
+using CityScout.Repositories;
+using CityScout.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IDistrictService, DistrictService>();
 
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
