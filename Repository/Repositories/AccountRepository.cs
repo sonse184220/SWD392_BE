@@ -52,6 +52,7 @@ namespace Repository.Repositories
                 .Select(u => new
                 {
                     u.UserId,
+                    u.Email,
                     u.UserName,
                     u.PhoneNumber,
                     u.Address
