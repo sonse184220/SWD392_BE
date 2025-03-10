@@ -1,10 +1,13 @@
 using CityScout;
+using CityScout.Repositories;
+using CityScout.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PsyHealth.Repositories.Base;
 using Repository;
 using Repository.Interfaces;
 using Repository.Models;
@@ -28,6 +31,16 @@ builder.Services.AddServices();
 builder.Services.AddHttpClient<IFcmService, FcmService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped(typeof(GenericRepository<>));
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IDistrictService, DistrictService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+
 
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
