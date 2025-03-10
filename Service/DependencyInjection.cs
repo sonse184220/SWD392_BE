@@ -15,6 +15,7 @@ namespace Service
         {
             service.AddScoped<IAuthService, AuthService>();
             service.AddScoped<IDestinationService, DestinationService>();
+            service.AddScoped<IGeminiService, GeminiService>();
             return service;
         }
     }
