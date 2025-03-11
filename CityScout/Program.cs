@@ -25,8 +25,13 @@ if (FirebaseApp.DefaultInstance == null)
         Credential = GoogleCredential.FromFile("firebase-adminsdk.json")
     });
 }
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration); // Add this line after builder is created
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<CityScoutContext>();
+
+// Configure CityScoutContext with the connection string
+builder.Services.AddDbContext<CityScoutContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddHttpClient<IFcmService, FcmService>();
@@ -45,7 +50,7 @@ builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
 
 //jwt
 builder.Services.ConfigureAuthentication(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddControllersAsServices();
 
 
 builder.Services.AddEndpointsApiExplorer();
