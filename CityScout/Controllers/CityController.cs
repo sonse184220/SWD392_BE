@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
-using Repository.Models;
+using CityScout.Services;
 using CityScout.DTOs;
+using Service.Interfaces;
 
 namespace CityScout.Controllers
 {
@@ -19,82 +19,38 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCities()
         {
-            try
-            {
-                var cities = await _cityService.GetAllAsync();
-                return Ok(cities);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var result = await _cityService.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCity(int id)
+        public async Task<IActionResult> GetCity(string id)
         {
-            try
-            {
-                var city = await _cityService.GetByIdAsync(id);
-                if (city == null)
-                    return NotFound();
-
-                return Ok(city);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var city = await _cityService.GetByIdAsync(id);
+            if (city == null) return NotFound();
+            return Ok(city);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCity([FromBody] CityCreateDto cityDto)
+        public async Task<IActionResult> CreateCity([FromBody] CityCreateDto dto)
         {
-            var city = new City
-            {
-                CityId = Guid.NewGuid().ToString(),
-                Name = cityDto.Name,
-                Description = cityDto.Description
-            };
-
-            await _cityService.CreateAsync(city);
-
-            return CreatedAtAction(nameof(GetCity), new { id = city.CityId }, city);
+            var createdId = await _cityService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetCity), new { id = createdId }, null);
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCity(int id, [FromBody] City city)
+        public async Task<IActionResult> UpdateCity(string id, [FromBody] CityCreateDto dto)
         {
-            try
-            {
-                if (id != city.CityId)
-                    return BadRequest("City ID mismatch.");
-
-                await _cityService.UpdateAsync(city);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            await _cityService.UpdateAsync(id, dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCity(int id)
+        public async Task<IActionResult> DeleteCity(string id)
         {
-            try
-            {
-                var result = await _cityService.RemoveAsync(id);
-                if (!result)
-                    return NotFound();
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var success = await _cityService.RemoveAsync(id);
+            if (!success) return NotFound();
+            return NoContent();
         }
     }
 }

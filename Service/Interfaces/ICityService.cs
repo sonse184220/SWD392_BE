@@ -1,4 +1,5 @@
-﻿using Repository.Models;
+﻿using CityScout.DTOs;
+using Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Service.Interfaces
   public  interface ICityService
     {
         Task<List<City>> GetAllAsync();
-        Task<City> GetByIdAsync(int id);
-        Task<int> CreateAsync(City city);
-        Task<int> UpdateAsync(City city);
-        Task<bool> RemoveAsync(int id);
+        Task<City> GetByIdAsync(string id);
+        Task<string> CreateAsync(CityCreateDto dto);
+        Task UpdateAsync(string id, CityCreateDto dto);
+        Task<bool> RemoveAsync(string id);
     }
 }
