@@ -15,16 +15,19 @@ namespace CityScout.Repositories
         public async Task<List<District>> GetAllAsync()
             => await base.GetAllAsync();
 
-        public async Task<District> GetByIdAsync(int id)
+        public async Task<District> GetByIdAsync(string id)
             => await base.GetByIdAsync(id);
 
-        public async Task<int> CreateAsync(District district)
-            => await base.CreateAsync(district);
+        public async Task<string> CreateAsync(District district)
+        {
+            await base.CreateAsync(district);
+            return district.DistrictId;
+        }
 
-        public async Task<int> UpdateAsync(District district)
+        public async Task UpdateAsync(District district)
             => await base.UpdateAsync(district);
 
-        public async Task<bool> RemoveAsync(int id)
+        public async Task<bool> RemoveAsync(string id)
         {
             var district = await GetByIdAsync(id);
             if (district == null) return false;
