@@ -21,7 +21,7 @@ namespace Repository.Repositories
             return await _context.Destinations.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Destination> GetDestinationByIdAsync(int id)
+        public async Task<Destination> GetDestinationByIdAsync(string id)
         {
             return await _context.Destinations.AsNoTracking().FirstOrDefaultAsync(d => d.DestinationId == id);
         }
@@ -45,7 +45,7 @@ namespace Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteDestinationAsync(int id)
+        public async Task DeleteDestinationAsync(string id)
         {
             var destination = await _context.Destinations.FindAsync(id);
             if (destination != null)

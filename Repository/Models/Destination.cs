@@ -7,7 +7,7 @@ namespace Repository.Models;
 
 public partial class Destination
 {
-    public int DestinationId { get; set; }
+    public string DestinationId { get; set; }
 
     public string DestinationName { get; set; }
 
@@ -17,13 +17,13 @@ public partial class Destination
 
     public double? Rate { get; set; }
 
-    public int? CategoryId { get; set; }
+    public string CategoryId { get; set; }
 
     public string Ward { get; set; }
 
     public string Status { get; set; }
 
-    public int? DistrictId { get; set; }
+    public string DistrictId { get; set; }
 
     public virtual Category Category { get; set; }
 

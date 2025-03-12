@@ -7,7 +7,7 @@ namespace Repository.Models;
 
 public partial class OpeningHour
 {
-    public int DestinationId { get; set; }
+    public string DestinationId { get; set; }
 
     public string DayOfWeek { get; set; }
 

@@ -21,6 +21,8 @@ public partial class Account
 
     public int? RoleId { get; set; }
 
+    public string ProfilePicture { get; set; }
+
     public virtual ICollection<ChatHistory> ChatHistoryReceivers { get; set; } = new List<ChatHistory>();
 
     public virtual ICollection<ChatHistory> ChatHistorySenders { get; set; } = new List<ChatHistory>();

@@ -50,24 +50,18 @@ namespace CityScout.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCity([FromBody] CityCreateDto cityDto)
         {
-            try
+            var city = new City
             {
-                var city = new City
-                {
-                    CityId = cityDto.CityId,
-                    Name = cityDto.Name,
-                    Description = cityDto.Description
-                };
+                CityId = Guid.NewGuid().ToString(),
+                Name = cityDto.Name,
+                Description = cityDto.Description
+            };
 
-                var createdId = await _cityService.CreateAsync(city);
+            await _cityService.CreateAsync(city);
 
-                return CreatedAtAction(nameof(GetCity), new { id = createdId }, city);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return CreatedAtAction(nameof(GetCity), new { id = city.CityId }, city);
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCity(int id, [FromBody] City city)

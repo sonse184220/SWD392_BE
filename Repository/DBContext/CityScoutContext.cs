@@ -53,11 +53,11 @@ public partial class CityScoutContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Account__1788CCAC662B3CB2");
+            entity.HasKey(e => e.UserId).HasName("PK__Account__1788CCAC3981AEF3");
 
             entity.ToTable("Account");
 
-            entity.HasIndex(e => e.Email, "UQ__Account__A9D10534C55355EB").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Account__Email").IsUnique();
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(255)
@@ -74,23 +74,25 @@ public partial class CityScoutContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Account__RoleID__6B24EA82");
+                .HasConstraintName("FK__Account__RoleID__4CA06362");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2BB380181A");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2B62DE4276");
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryId)
+                .HasMaxLength(255)
+                .HasColumnName("CategoryID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
         modelBuilder.Entity<ChatHistory>(entity =>
         {
-            entity.HasKey(e => e.ChatId).HasName("PK__ChatHist__A9FBE626C5C195E4");
+            entity.HasKey(e => e.ChatId).HasName("PK__ChatHist__A9FBE62693D28C5C");
 
             entity.ToTable("ChatHistory");
 
@@ -108,108 +110,128 @@ public partial class CityScoutContext : DbContext
 
             entity.HasOne(d => d.Receiver).WithMany(p => p.ChatHistoryReceivers)
                 .HasForeignKey(d => d.ReceiverId)
-                .HasConstraintName("FK__ChatHisto__Recei__787EE5A0");
+                .HasConstraintName("FK__ChatHisto__Recei__4D94879B");
 
             entity.HasOne(d => d.Sender).WithMany(p => p.ChatHistorySenders)
                 .HasForeignKey(d => d.SenderId)
-                .HasConstraintName("FK__ChatHisto__Sende__778AC167");
+                .HasConstraintName("FK__ChatHisto__Sende__4E88ABD4");
         });
 
         modelBuilder.Entity<City>(entity =>
         {
-            entity.HasKey(e => e.CityId).HasName("PK__City__F2D21A96115D9B72");
+            entity.HasKey(e => e.CityId).HasName("PK__City__F2D21A964639366B");
 
             entity.ToTable("City");
 
-            entity.Property(e => e.CityId).HasColumnName("CityID");
+            entity.Property(e => e.CityId)
+                .HasMaxLength(255)
+                .HasColumnName("CityID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Destination>(entity =>
         {
-            entity.HasKey(e => e.DestinationId).HasName("PK__Destinat__DB5FE4ACF74C4B44");
+            entity.HasKey(e => e.DestinationId).HasName("PK__Destinat__DB5FE4ACE0D8EC75");
 
             entity.ToTable("Destination");
 
-            entity.Property(e => e.DestinationId).HasColumnName("DestinationID");
+            entity.Property(e => e.DestinationId)
+                .HasMaxLength(255)
+                .HasColumnName("DestinationID");
             entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryId)
+                .HasMaxLength(255)
+                .HasColumnName("CategoryID");
             entity.Property(e => e.DestinationName)
                 .IsRequired()
                 .HasMaxLength(255);
-            entity.Property(e => e.DistrictId).HasColumnName("DistrictID");
+            entity.Property(e => e.DistrictId)
+                .HasMaxLength(255)
+                .HasColumnName("DistrictID");
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.Ward).HasMaxLength(255);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Destinations)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Destinati__Categ__6EF57B66");
+                .HasConstraintName("FK__Destinati__Categ__4F7CD00D");
 
             entity.HasOne(d => d.District).WithMany(p => p.Destinations)
                 .HasForeignKey(d => d.DistrictId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Destinati__Distr__70DDC3D8");
+                .HasConstraintName("FK__Destinati__Distr__5070F446");
         });
 
         modelBuilder.Entity<District>(entity =>
         {
-            entity.HasKey(e => e.DistrictId).HasName("PK__District__85FDA4A6CA51461F");
+            entity.HasKey(e => e.DistrictId).HasName("PK__District__85FDA4A6D885298D");
 
             entity.ToTable("District");
 
-            entity.Property(e => e.DistrictId).HasColumnName("DistrictID");
-            entity.Property(e => e.CityId).HasColumnName("CityID");
+            entity.Property(e => e.DistrictId)
+                .HasMaxLength(255)
+                .HasColumnName("DistrictID");
+            entity.Property(e => e.CityId)
+                .HasMaxLength(255)
+                .HasColumnName("CityID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
 
             entity.HasOne(d => d.City).WithMany(p => p.Districts)
                 .HasForeignKey(d => d.CityId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__District__CityID__5EBF139D");
+                .HasConstraintName("FK__District__CityID__5165187F");
         });
 
         modelBuilder.Entity<OpeningHour>(entity =>
         {
-            entity.HasKey(e => new { e.DestinationId, e.DayOfWeek }).HasName("PK__OpeningH__0B52A4A115A07ECA");
+            entity.HasKey(e => new { e.DestinationId, e.DayOfWeek }).HasName("PK__OpeningH__0B52A4A1E1E3DA50");
 
-            entity.Property(e => e.DestinationId).HasColumnName("DestinationID");
+            entity.Property(e => e.DestinationId)
+                .HasMaxLength(255)
+                .HasColumnName("DestinationID");
             entity.Property(e => e.DayOfWeek).HasMaxLength(15);
             entity.Property(e => e.IsClosed).HasDefaultValue(false);
 
             entity.HasOne(d => d.Destination).WithMany(p => p.OpeningHours)
                 .HasForeignKey(d => d.DestinationId)
-                .HasConstraintName("FK__OpeningHo__Desti__73BA3083");
+                .HasConstraintName("FK__OpeningHo__Desti__52593CB8");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A0947D6A5");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3AEB927082");
 
             entity.ToTable("Role");
 
-            entity.HasIndex(e => e.RoleName, "UQ__Role__8A2B61609EE12A58").IsUnique();
+            entity.HasIndex(e => e.RoleName, "UQ__Role__RoleName").IsUnique();
 
-            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleId)
+                .ValueGeneratedNever()
+                .HasColumnName("RoleID");
             entity.Property(e => e.RoleName).HasMaxLength(255);
         });
 
         modelBuilder.Entity<SubCategory>(entity =>
         {
-            entity.HasKey(e => e.SubCategoryId).HasName("PK__SubCateg__26BE5BF97C068465");
+            entity.HasKey(e => e.SubCategoryId).HasName("PK__SubCateg__26BE5BF95FA18A70");
 
             entity.ToTable("SubCategory");
 
-            entity.Property(e => e.SubCategoryId).HasColumnName("SubCategoryID");
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.SubCategoryId)
+                .HasMaxLength(255)
+                .HasColumnName("SubCategoryID");
+            entity.Property(e => e.CategoryId)
+                .HasMaxLength(255)
+                .HasColumnName("CategoryID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
 
             entity.HasOne(d => d.Category).WithMany(p => p.SubCategories)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__SubCatego__Categ__6383C8BA");
+                .HasConstraintName("FK__SubCatego__Categ__534D60F1");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -7,13 +7,13 @@ namespace Repository.Models;
 
 public partial class SubCategory
 {
-    public int SubCategoryId { get; set; }
+    public string SubCategoryId { get; set; }
 
     public string Name { get; set; }
 
     public string Description { get; set; }
 
-    public int? CategoryId { get; set; }
+    public string CategoryId { get; set; }
 
     public virtual Category Category { get; set; }
 }
