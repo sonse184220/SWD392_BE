@@ -29,21 +29,29 @@ namespace Repository.Repositories
         {
             return await CreateAsync(account);
         }
-        public async Task<bool> UpdateProfileAsync(UpdateProfileRequest request)
+        public async Task<bool> UpdateProfileAsync(string userId, UpdateProfileRequest request, string? profilePicture)
         {
-            var user = await _context.Accounts.FirstOrDefaultAsync(x => x.UserId == request.UserId);
+            var user = await _context.Accounts.FirstOrDefaultAsync(x => x.UserId == userId);
             if (user == null) return false;
 
-            if (!string.IsNullOrEmpty(request.Username))
+            if (request.Username is not null)
                 user.UserName = request.Username;
-            if (!string.IsNullOrEmpty(request.PhoneNumber))
+
+            if (request.PhoneNumber is not null)
                 user.PhoneNumber = request.PhoneNumber;
-            if (!string.IsNullOrEmpty(request.Address))
+
+            if (request.Address is not null)
                 user.Address = request.Address;
+
+            if (!string.IsNullOrEmpty(profilePicture))
+                user.ProfilePicture = profilePicture;
 
             await UpdateAsync(user);
             return true;
         }
+
+
+
 
         public async Task<object> GetProfileByIdAsync(string userId)
         {
@@ -55,7 +63,8 @@ namespace Repository.Repositories
                     u.Email,
                     u.UserName,
                     u.PhoneNumber,
-                    u.Address
+                    u.Address,
+                    u.ProfilePicture
                 })
                 .FirstOrDefaultAsync();
         }

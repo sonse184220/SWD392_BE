@@ -12,7 +12,7 @@ namespace Repository.Interfaces
     {
         Task<Account> GetByEmailAsync(string email);
         Task<int> CreateAccountAsync(Account account);
-        Task<bool> UpdateProfileAsync(UpdateProfileRequest request);
+        Task<bool> UpdateProfileAsync(string userId, UpdateProfileRequest request, string? profilePicture);
         Task<object> GetProfileByIdAsync(string userId);
 
     }
