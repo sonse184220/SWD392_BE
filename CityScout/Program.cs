@@ -68,14 +68,16 @@ builder.Services.AddSwaggerGen(c =>
         Contact = new OpenApiContact { Name = "Your Name", Email = "your.email@example.com" }
     });
 
-    // Make sure this path exists and is correctly referenced
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
     {
         c.IncludeXmlComments(xmlPath);
     }
+
+    c.OperationFilter<FileUploadOperationFilter>();
 });
+
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
