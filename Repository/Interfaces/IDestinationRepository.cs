@@ -1,16 +1,13 @@
 ﻿using Repository.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Repository.Interfaces
+namespace CityScout.Repositories
 {
     public interface IDestinationRepository
     {
-        Task<List<Destination>> GetAllDestinationsAsync();
-        Task<Destination> GetDestinationByIdAsync(int id);
-        Task<List<Destination>> SearchDestinationsAsync(string query);
-        Task AddDestinationAsync(Destination destination);
-        Task UpdateDestinationAsync(Destination destination);
-        Task DeleteDestinationAsync(int id);
+        Task<List<Destination>> GetAllAsync();
+        Task<Destination> GetByIdAsync(string id);
+        Task<string> CreateAsync(Destination destination);
+        Task UpdateAsync(Destination destination);
+        Task<bool> RemoveAsync(string id);
     }
 }

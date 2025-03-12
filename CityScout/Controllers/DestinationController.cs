@@ -1,57 +1,54 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
-using Repository.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using CityScout.Services;
+using CityScout.DTOs;
 
 namespace CityScout.Controllers
 {
-    [Route("cityscout/destinations")]
     [ApiController]
+    [Route("api/[controller]")]
     public class DestinationController : ControllerBase
     {
-        private readonly IDestinationService _service;
+        private readonly IDestinationService _destinationService;
 
-        public DestinationController(IDestinationService service)
+        public DestinationController(IDestinationService destinationService)
         {
-            _service = service;
+            _destinationService = destinationService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Destination>>> GetAll()
-            => Ok(await _service.GetAllDestinationsAsync());
+        public async Task<IActionResult> GetAllDestinations()
+        {
+            var result = await _destinationService.GetAllAsync();
+            return Ok(result);
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Destination>> GetById(int id)
+        public async Task<IActionResult> GetDestination(string id)
         {
-            var result = await _service.GetDestinationByIdAsync(id);
-            return result != null ? Ok(result) : NotFound();
+            var destination = await _destinationService.GetByIdAsync(id);
+            if (destination == null) return NotFound();
+            return Ok(destination);
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<List<Destination>>> Search([FromQuery] string query)
-            => Ok(await _service.SearchDestinationsAsync(query));
-
-        [HttpPost, Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([FromBody] Destination destination)
+        [HttpPost]
+        public async Task<IActionResult> CreateDestination([FromBody] DestinationCreateDto dto)
         {
-            await _service.AddDestinationAsync(destination);
-            return CreatedAtAction(nameof(GetById), new { id = destination.DestinationId }, destination);
+            var createdId = await _destinationService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetDestination), new { id = createdId }, null);
         }
 
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(int id, [FromBody] Destination destination)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDestination(string id, [FromBody] DestinationCreateDto dto)
         {
-            destination.DestinationId = id;
-            await _service.UpdateDestinationAsync(destination);
+            await _destinationService.UpdateAsync(id, dto);
             return NoContent();
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDestination(string id)
         {
-            await _service.DeleteDestinationAsync(id);
+            var success = await _destinationService.RemoveAsync(id);
+            if (!success) return NotFound();
             return NoContent();
         }
     }

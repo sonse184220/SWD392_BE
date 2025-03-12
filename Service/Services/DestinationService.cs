@@ -1,30 +1,60 @@
-﻿using Repository.Interfaces;
+﻿using CityScout.Repositories;
 using Repository.Models;
-using Service.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using CityScout.DTOs;
 
-namespace Service.Services
+namespace CityScout.Services
 {
     public class DestinationService : IDestinationService
     {
-        private readonly IDestinationRepository _repository;
+        private readonly IDestinationRepository _destinationRepository;
 
-        public DestinationService(IDestinationRepository repository)
+        public DestinationService(IDestinationRepository destinationRepository)
         {
-            _repository = repository;
+            _destinationRepository = destinationRepository;
         }
 
-        public Task<List<Destination>> GetAllDestinationsAsync() => _repository.GetAllDestinationsAsync();
+        public async Task<List<Destination>> GetAllAsync()
+            => await _destinationRepository.GetAllAsync();
 
-        public Task<Destination> GetDestinationByIdAsync(int id) => _repository.GetDestinationByIdAsync(id);
+        public async Task<Destination> GetByIdAsync(string id)
+            => await _destinationRepository.GetByIdAsync(id);
 
-        public Task<List<Destination>> SearchDestinationsAsync(string query) => _repository.SearchDestinationsAsync(query);
+        public async Task<string> CreateAsync(DestinationCreateDto dto)
+        {
+            var destination = new Destination
+            {
+                DestinationId = Guid.NewGuid().ToString(),
+                DestinationName = dto.DestinationName,
+                Address = dto.Address,
+                Description = dto.Description,
+                Rate = dto.Rate,
+                CategoryId = dto.CategoryId,
+                Ward = dto.Ward,
+                Status = dto.Status,
+                DistrictId = dto.DistrictId
+            };
+            return await _destinationRepository.CreateAsync(destination);
+        }
 
-        public Task AddDestinationAsync(Destination destination) => _repository.AddDestinationAsync(destination);
+        public async Task UpdateAsync(string id, DestinationCreateDto dto)
+        {
+            var destination = await _destinationRepository.GetByIdAsync(id);
+            if (destination == null)
+                throw new Exception("Destination not found");
 
-        public Task UpdateDestinationAsync(Destination destination) => _repository.UpdateDestinationAsync(destination);
+            destination.DestinationName = dto.DestinationName;
+            destination.Address = dto.Address;
+            destination.Description = dto.Description;
+            destination.Rate = dto.Rate;
+            destination.CategoryId = dto.CategoryId;
+            destination.Ward = dto.Ward;
+            destination.Status = dto.Status;
+            destination.DistrictId = dto.DistrictId;
 
-        public Task DeleteDestinationAsync(int id) => _repository.DeleteDestinationAsync(id);
+            await _destinationRepository.UpdateAsync(destination);
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+            => await _destinationRepository.RemoveAsync(id);
     }
 }
