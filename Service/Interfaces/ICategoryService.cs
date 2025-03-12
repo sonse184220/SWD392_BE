@@ -1,18 +1,14 @@
 ﻿using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CityScout.DTOs;
 
 namespace CityScout.Services
 {
     public interface ICategoryService
     {
         Task<List<Category>> GetAllAsync();
-        Task<Category> GetByIdAsync(int id);
-        Task<int> CreateAsync(Category category);
-        Task<int> UpdateAsync(Category category);
-        Task<bool> RemoveAsync(int id);
+        Task<Category> GetByIdAsync(string id);
+        Task<string> CreateAsync(CategoryCreateDto dto);
+        Task UpdateAsync(string id, CategoryCreateDto dto);
+        Task<bool> RemoveAsync(string id);
     }
 }

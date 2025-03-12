@@ -1,10 +1,5 @@
 ﻿using PsyHealth.Repositories.Base;
 using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CityScout.Repositories
 {
@@ -15,16 +10,19 @@ namespace CityScout.Repositories
         public async Task<List<Category>> GetAllAsync()
             => await base.GetAllAsync();
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(string id)
             => await base.GetByIdAsync(id);
 
-        public async Task<int> CreateAsync(Category category)
-            => await base.CreateAsync(category);
+        public async Task<string> CreateAsync(Category category)
+        {
+            await base.CreateAsync(category);
+            return category.CategoryId;
+        }
 
-        public async Task<int> UpdateAsync(Category category)
+        public async Task UpdateAsync(Category category)
             => await base.UpdateAsync(category);
 
-        public async Task<bool> RemoveAsync(int id)
+        public async Task<bool> RemoveAsync(string id)
         {
             var category = await GetByIdAsync(id);
             if (category == null) return false;
