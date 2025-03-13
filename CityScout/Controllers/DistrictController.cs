@@ -18,38 +18,75 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDistricts()
         {
-            var result = await _districtService.GetAllAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _districtService.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDistrict(string id)
         {
-            var district = await _districtService.GetByIdAsync(id);
-            if (district == null) return NotFound();
-            return Ok(district);
+            try
+            {
+                var district = await _districtService.GetByIdAsync(id);
+                if (district == null) return NotFound();
+                return Ok(district);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateDistrict([FromBody] DistrictCreateDto dto)
         {
-            var createdId = await _districtService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetDistrict), new { id = createdId }, null);
+            try
+            {
+                var createdId = await _districtService.CreateAsync(dto);
+                return CreatedAtAction(nameof(GetDistrict), new { id = createdId }, null);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDistrict(string id, [FromBody] DistrictCreateDto dto)
         {
-            await _districtService.UpdateAsync(id, dto);
-            return NoContent();
+            try
+            {
+                await _districtService.UpdateAsync(id, dto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDistrict(string id)
         {
-            var success = await _districtService.RemoveAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
+            try
+            {
+                var success = await _districtService.RemoveAsync(id);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
