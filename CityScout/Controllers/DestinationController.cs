@@ -51,5 +51,12 @@ namespace CityScout.Controllers
             if (!success) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchDestinations([FromQuery] string name)
+        {
+            var results = await _destinationService.SearchDestinationsByNameAsync(name);
+            return Ok(results);
+        }
     }
 }
