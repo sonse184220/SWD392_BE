@@ -1,5 +1,6 @@
 ﻿using Repository.Interfaces;
-using Repository.RequestModels;  
+using Repository.RequestModels;
+using Repository.ResponseModels;
 using Service.Interfaces;
 
 namespace Service.Services
@@ -18,9 +19,16 @@ namespace Service.Services
         }
 
 
-        public async Task<object> GetProfileByIdAsync(string userId)
+        public async Task<ProfileResponse> GetProfileByIdAsync(string userId)
         {
-            return await _accountRepository.GetProfileByIdAsync(userId.ToString());
+            return await _accountRepository.GetProfileByIdAsync(userId);
         }
+
+
+        public async Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive)
+        {
+            return await _accountRepository.SetAccountActiveStatusAsync(userId, isActive);
+        }
+
     }
 }
