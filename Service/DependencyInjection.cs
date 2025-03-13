@@ -19,6 +19,8 @@ namespace Service
             service.AddScoped<IGeminiService, GeminiService>();
             service.AddScoped<AIService>();
             service.AddScoped<IDatabaseService, SqlServerDatabaseService>();
+            service.AddScoped<IRedisCacheService, RedisCacheService>();
+
             return service;
         }
     }
