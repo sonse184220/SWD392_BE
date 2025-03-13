@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Repository.RequestModels;
 using Service.Interfaces;
 
@@ -10,31 +9,47 @@ namespace CityScout.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
+
         public ProfileController(IProfileService profileService)
         {
             _profileService = profileService;
         }
 
         [HttpPut("{id}")]
-        //[Authorize]
-        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequest request)
+        public async Task<IActionResult> UpdateProfile(
+      string id,
+      [FromForm] UpdateProfileRequest request,
+      IFormFile? profilePicture)
         {
             try
             {
-                request.UserId = id;
-                var result = await _profileService.UpdateProfileAsync(request);
+                string? profilePictureData = null;
+
+                if (profilePicture != null && profilePicture.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await profilePicture.CopyToAsync(ms);
+                    profilePictureData = $"data:{profilePicture.ContentType};base64,{Convert.ToBase64String(ms.ToArray())}";
+                }
+
+                var result = await _profileService.UpdateProfileAsync(id, request, profilePictureData);
                 if (!result)
-                    return BadRequest("Update failed");
+                    return NotFound("User not found");
+
                 return Ok("Profile updated successfully");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
 
+
+
+
+
+
         [HttpGet("{id}")]
-        //[Authorize]
         public async Task<IActionResult> GetProfile(string id)
         {
             try
@@ -42,6 +57,7 @@ namespace CityScout.Controllers
                 var profile = await _profileService.GetProfileByIdAsync(id);
                 if (profile == null)
                     return NotFound("User not found");
+
                 return Ok(profile);
             }
             catch (Exception ex)

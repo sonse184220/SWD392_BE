@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CityScout.Services;
-using Repository.Models;
+using CityScout.DTOs;
 
 namespace CityScout.Controllers
 {
@@ -18,81 +18,38 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
-            try
-            {
-                var categories = await _categoryService.GetAllAsync();
-                return Ok(categories);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var result = await _categoryService.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategory(int id)
+        public async Task<IActionResult> GetCategory(string id)
         {
-            try
-            {
-                var category = await _categoryService.GetByIdAsync(id);
-                if (category == null)
-                    return NotFound();
-
-                return Ok(category);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var category = await _categoryService.GetByIdAsync(id);
+            if (category == null) return NotFound();
+            return Ok(category);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] Category category)
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryCreateDto dto)
         {
-            try
-            {
-                var createdId = await _categoryService.CreateAsync(category);
-                category.CategoryId = createdId;
-                return CreatedAtAction(nameof(GetCategory), new { id = category.CategoryId }, category);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var createdId = await _categoryService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetCategory), new { id = createdId }, null);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] Category category)
+        public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryCreateDto dto)
         {
-            try
-            {
-                if (id != category.CategoryId)
-                    return BadRequest("Category ID mismatch.");
-
-                await _categoryService.UpdateAsync(category);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            await _categoryService.UpdateAsync(id, dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(string id)
         {
-            try
-            {
-                var result = await _categoryService.RemoveAsync(id);
-                if (!result)
-                    return NotFound();
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var success = await _categoryService.RemoveAsync(id);
+            if (!success) return NotFound();
+            return NoContent();
         }
     }
 }

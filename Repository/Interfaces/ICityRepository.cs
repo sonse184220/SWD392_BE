@@ -10,9 +10,9 @@ namespace Repository.Interfaces
    public interface ICityRepository
     {
         Task<List<City>> GetAllAsync();
-        Task<City> GetByIdAsync(int id);
-        Task<int> CreateAsync(City city);
-        Task<int> UpdateAsync(City city);
-        Task<bool> RemoveAsync(int id);
+        Task<City> GetByIdAsync(string id);
+        Task<string> CreateAsync(City city);
+        Task UpdateAsync(City city);
+        Task<bool> RemoveAsync(string id);
     }
 }

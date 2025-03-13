@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CityScout.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Service.Interfaces;
 using Service.Services;
 using System;

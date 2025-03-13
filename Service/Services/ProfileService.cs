@@ -12,10 +12,11 @@ namespace Service.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<bool> UpdateProfileAsync(UpdateProfileRequest request)
+        public async Task<bool> UpdateProfileAsync(string userId, UpdateProfileRequest request, string? profilePicture)
         {
-            return await _accountRepository.UpdateProfileAsync(request);
+            return await _accountRepository.UpdateProfileAsync(userId, request, profilePicture);
         }
+
 
         public async Task<object> GetProfileByIdAsync(string userId)
         {

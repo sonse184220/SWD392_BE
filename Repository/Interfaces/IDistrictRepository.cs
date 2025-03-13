@@ -10,9 +10,9 @@ namespace CityScout.Repositories
     public interface IDistrictRepository
     {
         Task<List<District>> GetAllAsync();
-        Task<District> GetByIdAsync(int id);
-        Task<int> CreateAsync(District district);
-        Task<int> UpdateAsync(District district);
-        Task<bool> RemoveAsync(int id);
+        Task<District> GetByIdAsync(string id);
+        Task<string> CreateAsync(District district);
+        Task UpdateAsync(District district);
+        Task<bool> RemoveAsync(string id);
     }
 }

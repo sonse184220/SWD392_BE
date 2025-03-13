@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CityScout.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Repository.Interfaces;
 using Repository.Repositories;
 using System;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CityScout.Services;
-using Repository.Models;
+using CityScout.DTOs;
 
 namespace CityScout.Controllers
 {
@@ -18,81 +18,41 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllSubCategories()
         {
-            try
-            {
-                var subCategories = await _subCategoryService.GetAllAsync();
-                return Ok(subCategories);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var result = await _subCategoryService.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSubCategory(int id)
+        public async Task<IActionResult> GetSubCategory(string id)
         {
-            try
-            {
-                var subCategory = await _subCategoryService.GetByIdAsync(id);
-                if (subCategory == null)
-                    return NotFound();
+            var subCategory = await _subCategoryService.GetByIdAsync(id);
+            if (subCategory == null)
+                return NotFound();
 
-                return Ok(subCategory);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(subCategory);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSubCategory([FromBody] SubCategory subCategory)
+        public async Task<IActionResult> CreateSubCategory([FromBody] SubCategoryCreateDto dto)
         {
-            try
-            {
-                var createdId = await _subCategoryService.CreateAsync(subCategory);
-                subCategory.SubCategoryId = createdId;
-                return CreatedAtAction(nameof(GetSubCategory), new { id = subCategory.SubCategoryId }, subCategory);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var createdId = await _subCategoryService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetSubCategory), new { id = createdId }, null);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSubCategory(int id, [FromBody] SubCategory subCategory)
+        public async Task<IActionResult> UpdateSubCategory(string id, [FromBody] SubCategoryCreateDto dto)
         {
-            try
-            {
-                if (id != subCategory.SubCategoryId)
-                    return BadRequest("SubCategory ID mismatch.");
-
-                await _subCategoryService.UpdateAsync(subCategory);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            await _subCategoryService.UpdateAsync(id, dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSubCategory(int id)
+        public async Task<IActionResult> DeleteSubCategory(string id)
         {
-            try
-            {
-                var result = await _subCategoryService.RemoveAsync(id);
-                if (!result)
-                    return NotFound();
+            var success = await _subCategoryService.RemoveAsync(id);
+            if (!success) return NotFound();
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return NoContent();
         }
     }
 }

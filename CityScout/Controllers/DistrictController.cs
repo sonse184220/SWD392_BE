@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 using CityScout.Services;
+using CityScout.DTOs;
 
 namespace CityScout.Controllers
 {
@@ -18,81 +18,38 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDistricts()
         {
-            try
-            {
-                var districts = await _districtService.GetAllAsync();
-                return Ok(districts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var result = await _districtService.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDistrict(int id)
+        public async Task<IActionResult> GetDistrict(string id)
         {
-            try
-            {
-                var district = await _districtService.GetByIdAsync(id);
-                if (district == null)
-                    return NotFound();
-
-                return Ok(district);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var district = await _districtService.GetByIdAsync(id);
+            if (district == null) return NotFound();
+            return Ok(district);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDistrict([FromBody] District district)
+        public async Task<IActionResult> CreateDistrict([FromBody] DistrictCreateDto dto)
         {
-            try
-            {
-                var createdId = await _districtService.CreateAsync(district);
-                district.DistrictId = createdId;
-                return CreatedAtAction(nameof(GetDistrict), new { id = district.DistrictId }, district);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var createdId = await _districtService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetDistrict), new { id = createdId }, null);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDistrict(int id, [FromBody] District district)
+        public async Task<IActionResult> UpdateDistrict(string id, [FromBody] DistrictCreateDto dto)
         {
-            try
-            {
-                if (id != district.DistrictId)
-                    return BadRequest("District ID mismatch.");
-
-                await _districtService.UpdateAsync(district);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            await _districtService.UpdateAsync(id, dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDistrict(int id)
+        public async Task<IActionResult> DeleteDistrict(string id)
         {
-            try
-            {
-                var result = await _districtService.RemoveAsync(id);
-                if (!result)
-                    return NotFound();
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var success = await _districtService.RemoveAsync(id);
+            if (!success) return NotFound();
+            return NoContent();
         }
     }
 }
