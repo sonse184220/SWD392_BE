@@ -30,5 +30,13 @@ namespace CityScout.Repositories
 
             return await base.RemoveAsync(destination);
         }
+
+        public async Task<List<Destination>> SearchDestinationsByNameAsync(string name)
+        {
+            return await _context.Destinations
+                                 .Where(d => d.DestinationName.Contains(name))
+                                 .ToListAsync();
+        }
+
     }
 }

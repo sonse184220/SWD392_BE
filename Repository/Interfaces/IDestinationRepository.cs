@@ -9,5 +9,7 @@ namespace CityScout.Repositories
         Task<string> CreateAsync(Destination destination);
         Task UpdateAsync(Destination destination);
         Task<bool> RemoveAsync(string id);
+        Task<List<Destination>> SearchDestinationsByNameAsync(string name);
+
     }
 }

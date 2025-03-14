@@ -1,5 +1,6 @@
 ﻿using Repository.Models;
 using Repository.RequestModels;
+using Repository.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace Repository.Interfaces
         Task<Account> GetByEmailAsync(string email);
         Task<int> CreateAccountAsync(Account account);
         Task<bool> UpdateProfileAsync(string userId, UpdateProfileRequest request, string? profilePicture);
-        Task<object> GetProfileByIdAsync(string userId);
+        Task<ProfileResponse> GetProfileByIdAsync(string userId);
+        Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive);
+
 
     }
 }

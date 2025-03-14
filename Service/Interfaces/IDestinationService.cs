@@ -10,5 +10,8 @@ namespace CityScout.Services
         Task<string> CreateAsync(DestinationCreateDto dto);
         Task UpdateAsync(string id, DestinationCreateDto dto);
         Task<bool> RemoveAsync(string id);
+
+        Task<List<Destination>> SearchDestinationsByNameAsync(string name);
+
     }
 }

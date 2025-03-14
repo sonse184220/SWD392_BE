@@ -19,38 +19,73 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCities()
         {
-            var result = await _cityService.GetAllAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _cityService.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCity(string id)
         {
-            var city = await _cityService.GetByIdAsync(id);
-            if (city == null) return NotFound();
-            return Ok(city);
+            try
+            {
+                var city = await _cityService.GetByIdAsync(id);
+                if (city == null) return NotFound();
+                return Ok(city);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCity([FromBody] CityCreateDto dto)
         {
-            var createdId = await _cityService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetCity), new { id = createdId }, null);
+            try
+            {
+                var createdId = await _cityService.CreateAsync(dto);
+                return CreatedAtAction(nameof(GetCity), new { id = createdId }, null);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCity(string id, [FromBody] CityCreateDto dto)
         {
-            await _cityService.UpdateAsync(id, dto);
-            return NoContent();
+            try
+            {
+                await _cityService.UpdateAsync(id, dto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(string id)
         {
-            var success = await _cityService.RemoveAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
+            try
+            {
+                var success = await _cityService.RemoveAsync(id);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

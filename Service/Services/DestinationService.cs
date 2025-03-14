@@ -56,5 +56,11 @@ namespace CityScout.Services
 
         public async Task<bool> RemoveAsync(string id)
             => await _destinationRepository.RemoveAsync(id);
+
+        public async Task<List<Destination>> SearchDestinationsByNameAsync(string name)
+        {
+            return await _destinationRepository.SearchDestinationsByNameAsync(name);
+        }
+
     }
 }

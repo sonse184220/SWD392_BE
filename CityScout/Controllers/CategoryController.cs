@@ -18,38 +18,75 @@ namespace CityScout.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
-            var result = await _categoryService.GetAllAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _categoryService.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(string id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
-            if (category == null) return NotFound();
-            return Ok(category);
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(id);
+                if (category == null) return NotFound();
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryCreateDto dto)
         {
-            var createdId = await _categoryService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetCategory), new { id = createdId }, null);
+            try
+            {
+                var createdId = await _categoryService.CreateAsync(dto);
+                return CreatedAtAction(nameof(GetCategory), new { id = createdId }, null);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryCreateDto dto)
         {
-            await _categoryService.UpdateAsync(id, dto);
-            return NoContent();
+
+            try
+            {
+                await _categoryService.UpdateAsync(id, dto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(string id)
         {
-            var success = await _categoryService.RemoveAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
+            try
+            {
+                var success = await _categoryService.RemoveAsync(id);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using PsyHealth.Repositories.Base;
 using Repository.Interfaces;
 using Repository.Models;
 using Repository.RequestModels;
+using Repository.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -53,22 +54,34 @@ namespace Repository.Repositories
 
 
 
-        public async Task<object> GetProfileByIdAsync(string userId)
+        public async Task<ProfileResponse> GetProfileByIdAsync(string userId)
         {
             return await _context.Accounts
-                .Where(u => u.UserId == userId.ToString()) 
-                .Select(u => new
+                .Where(u => u.UserId == userId)
+                .Select(u => new ProfileResponse
                 {
-                    u.UserId,
-                    u.Email,
-                    u.UserName,
-                    u.PhoneNumber,
-                    u.Address,
-                    u.ProfilePicture
+                    UserId = u.UserId,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    PhoneNumber = u.PhoneNumber,
+                    Address = u.Address,
+                    ProfilePicture = u.ProfilePicture,
+                    IsActive = u.IsActive
                 })
                 .FirstOrDefaultAsync();
         }
 
+
+        public async Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive)
+        {
+            var user = await _context.Accounts.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+                return false;
+
+            user.IsActive = isActive;
+            await UpdateAsync(user);
+            return true;
+        }
 
 
     }
