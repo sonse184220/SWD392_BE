@@ -47,6 +47,10 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
+builder.Services.AddScoped<IOpeningHourRepository, OpeningHourRepository>();
+builder.Services.AddScoped<IOpeningHourService, OpeningHourService>();
 //redis
 
 //builder.Services.AddStackExchangeRedisCache(options =>
