@@ -77,6 +77,71 @@ namespace Service.Services
             return rows;
         }
 
+        //public async Task<DatabaseSchema> GenerateSchema()
+        //{
+        //    var connectionString = _context.Database.GetDbConnection().ConnectionString ??
+        //                          _configuration.GetConnectionString("DefaultConnection");
+        //    if (string.IsNullOrEmpty(connectionString))
+        //    {
+        //        throw new InvalidOperationException("Connection string is not available.");
+        //    }
+
+        //    var dbSchema = new DatabaseSchema { SchemaRaw = new List<string>(), SchemaStructured = new List<TableSchema>() };
+        //    List<KeyValuePair<string, string>> rows = new();
+
+        //    string sqlQuery = @"
+        //        SELECT 
+        //            t.TABLE_NAME, 
+        //            c.COLUMN_NAME 
+        //        FROM 
+        //            INFORMATION_SCHEMA.TABLES t
+        //        JOIN 
+        //            INFORMATION_SCHEMA.COLUMNS c ON t.TABLE_NAME = c.TABLE_NAME
+        //        WHERE 
+        //            t.TABLE_TYPE = 'BASE TABLE';";
+
+        //    using var connection = new SqlConnection(connectionString);
+        //    await connection.OpenAsync();
+
+        //    using var command = new SqlCommand(sqlQuery, connection);
+        //    using var reader = await command.ExecuteReaderAsync();
+
+        //    while (await reader.ReadAsync())
+        //    {
+        //        rows.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
+        //    }
+
+        //    var groups = rows.GroupBy(x => x.Key);
+        //    foreach (var group in groups)
+        //    {
+        //        dbSchema.SchemaStructured.Add(new TableSchema { TableName = group.Key, Columns = group.Select(x => x.Value).ToList() });
+        //    }
+
+        //    var textLines = new List<string>();
+        //    foreach (var table in dbSchema.SchemaStructured)
+        //    {
+        //        var schemaLine = $"- {table.TableName} (";
+        //        foreach (var column in table.Columns)
+        //        {
+        //            schemaLine += column + ", ";
+        //        }
+        //        schemaLine += ")";
+        //        schemaLine = schemaLine.Replace(", )", " )");
+        //        textLines.Add(schemaLine);
+        //    }
+
+        //    // Add relationships for clarity
+        //    textLines.Add("Relationships:");
+        //    textLines.Add("- Destination.DistrictID references District.DistrictID");
+        //    textLines.Add("- District.CityID references City.CityID");
+        //    textLines.Add("- OpeningHours.DestinationID references Destination.DestinationID");
+        //    textLines.Add("- Destination.CategoryID references Category.CategoryID");
+
+        //    dbSchema.SchemaRaw = textLines;
+        //    return dbSchema;
+        //}
+
+
         public async Task<DatabaseSchema> GenerateSchema()
         {
             var connectionString = _context.Database.GetDbConnection().ConnectionString ??
@@ -86,37 +151,83 @@ namespace Service.Services
                 throw new InvalidOperationException("Connection string is not available.");
             }
 
-            var dbSchema = new DatabaseSchema { SchemaRaw = new List<string>(), SchemaStructured = new List<TableSchema>() };
-            List<KeyValuePair<string, string>> rows = new();
+            var dbSchema = new DatabaseSchema
+            {
+                SchemaRaw = new List<string>(),
+                SchemaStructured = new List<TableSchema>(),
+                WardNames = new List<string>(),
+                DistrictNames = new List<string>(),
+                CityNames = new List<string>(),
+                CategoryNames = new List<string>()  // Initialize category list
+            };
 
-            string sqlQuery = @"
-                SELECT 
-                    t.TABLE_NAME, 
-                    c.COLUMN_NAME 
-                FROM 
-                    INFORMATION_SCHEMA.TABLES t
-                JOIN 
-                    INFORMATION_SCHEMA.COLUMNS c ON t.TABLE_NAME = c.TABLE_NAME
-                WHERE 
-                    t.TABLE_TYPE = 'BASE TABLE';";
+            // Existing schema generation for tables and columns
+            string tableQuery = @"
+        SELECT t.TABLE_NAME, c.COLUMN_NAME 
+        FROM INFORMATION_SCHEMA.TABLES t
+        JOIN INFORMATION_SCHEMA.COLUMNS c ON t.TABLE_NAME = c.TABLE_NAME
+        WHERE t.TABLE_TYPE = 'BASE TABLE';";
 
             using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
-            using var command = new SqlCommand(sqlQuery, connection);
-            using var reader = await command.ExecuteReaderAsync();
-
-            while (await reader.ReadAsync())
+            // Fetch table schema
+            using (var command = new SqlCommand(tableQuery, connection))
+            using (var reader = await command.ExecuteReaderAsync())
             {
-                rows.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
+                var rows = new List<KeyValuePair<string, string>>();
+                while (await reader.ReadAsync())
+                {
+                    rows.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
+                }
+                var groups = rows.GroupBy(x => x.Key);
+                foreach (var group in groups)
+                {
+                    dbSchema.SchemaStructured.Add(new TableSchema { TableName = group.Key, Columns = group.Select(x => x.Value).ToList() });
+                }
             }
 
-            var groups = rows.GroupBy(x => x.Key);
-            foreach (var group in groups)
+            // Fetch city names
+            using (var command = new SqlCommand("SELECT Name FROM City", connection))
+            using (var reader = await command.ExecuteReaderAsync())
             {
-                dbSchema.SchemaStructured.Add(new TableSchema { TableName = group.Key, Columns = group.Select(x => x.Value).ToList() });
+                while (await reader.ReadAsync())
+                {
+                    dbSchema.CityNames.Add(reader.GetString(0));
+                }
             }
 
+            // Fetch district names
+            using (var command = new SqlCommand("SELECT Name FROM District", connection))
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    dbSchema.DistrictNames.Add(reader.GetString(0));
+                }
+            }
+
+            // Fetch ward names (assuming Ward is a column in Destination)
+            using (var command = new SqlCommand("SELECT DISTINCT Ward FROM Destination WHERE Ward IS NOT NULL", connection))
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    dbSchema.WardNames.Add(reader.GetString(0));
+                }
+            }
+
+            // Fetch category names
+            using (var command = new SqlCommand("SELECT Name FROM Category", connection))
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    dbSchema.CategoryNames.Add(reader.GetString(0));
+                }
+            }
+
+            // Generate SchemaRaw as before
             var textLines = new List<string>();
             foreach (var table in dbSchema.SchemaStructured)
             {
@@ -130,7 +241,6 @@ namespace Service.Services
                 textLines.Add(schemaLine);
             }
 
-            // Add relationships for clarity
             textLines.Add("Relationships:");
             textLines.Add("- Destination.DistrictID references District.DistrictID");
             textLines.Add("- District.CityID references City.CityID");
