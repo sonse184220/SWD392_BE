@@ -40,17 +40,36 @@ namespace CityScout.Controllers
                     return BadRequest(new { Error = "AI failed to generate a valid SQL query.", Summary = summary ?? "No summary provided." });
                 }
 
+
+
                 var data = await _dbService.GetDataTable(query);
                 if (data == null || data.Count <= 1) // No data beyond headers
                 {
-                    return Ok(new { Summary = "No interesting locations found.", Results = new List<object>() });
+                    // Use the summary from AI response if no data is found
+                    return Ok(new { Summary = summary, Results = new List<object>() });
+                }
+
+
+                // Verify column headers (first row of data)
+                var expectedHeaders = new List<string>
+                {
+                    "DestinationID", "DestinationName", "Address", "Description", "Rate",
+                    "CategoryID", "Ward", "Status", "CategoryName", "DistrictName",
+                    "OpenTime", "CloseTime"
+                };
+                var actualHeaders = data[0]; // First row contains headers
+                if (!expectedHeaders.SequenceEqual(actualHeaders))
+                {
+                    _logger.LogWarning("Column headers do not match expected order. Expected: {Expected}, Actual: {Actual}",
+                        string.Join(", ", expectedHeaders), string.Join(", ", actualHeaders));
+                    // Optionally, you could throw an exception or handle this differently
                 }
 
                 // Generate summary line from the DestinationName column (index 1)
                 var names = data.Skip(1).Select(row => row[1]); // Skip headers, take DestinationName
                 var finalSummary = names.Any()
                     ? $"Yes, there are {names.Count()} interesting locations: {string.Join(", ", names)}."
-                    : "No interesting locations found.";
+                    : summary; // Fallback to AI summary if no names
 
                 // Structure results for the frontend
                 var results = data.Skip(1).Select(row => new
@@ -61,10 +80,12 @@ namespace CityScout.Controllers
                     Description = row[3],
                     Rate = row[4],
                     CategoryID = row[5],
-                    CategoryName = row[6],
-                    DistrictName = row[7],
-                    OpenTime = row.ElementAtOrDefault(8), // Optional
-                    CloseTime = row.ElementAtOrDefault(9)  // Optional
+                    Ward = row[6],
+                    Status = row[7],
+                    CategoryName = row[8],
+                    DistrictName = row[9],
+                    OpenTime = row.ElementAtOrDefault(10),
+                    CloseTime = row.ElementAtOrDefault(11)
                 }).ToList();
 
                 return Ok(new
@@ -79,10 +100,10 @@ namespace CityScout.Controllers
                 return BadRequest(new { Error = $"Failed to process the search query. Error: {ex.Message}" });
             }
         }
-    }
 
-    public class SearchQueryRequest
-    {
-        public string SearchPrompt { get; set; }
+        public class SearchQueryRequest
+        {
+            public string SearchPrompt { get; set; }
+        }
     }
 }
