@@ -16,6 +16,7 @@ namespace Repository.Interfaces
         Task<bool> UpdateProfileAsync(string userId, UpdateProfileRequest request, string? profilePicture);
         Task<ProfileResponse> GetProfileByIdAsync(string userId);
         Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive);
+        Task<List<Account>> GetAccountListAsync();
 
 
     }

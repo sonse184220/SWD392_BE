@@ -83,6 +83,9 @@ namespace Repository.Repositories
             return true;
         }
 
-
+        public async Task<List<Account>> GetAccountListAsync()
+        {
+            return await GetAllAsync();
+        }
     }
 }

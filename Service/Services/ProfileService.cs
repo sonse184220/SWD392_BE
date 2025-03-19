@@ -1,4 +1,5 @@
 ﻿using Repository.Interfaces;
+using Repository.Models;
 using Repository.RequestModels;
 using Repository.ResponseModels;
 using Service.Interfaces;
@@ -28,6 +29,11 @@ namespace Service.Services
         public async Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive)
         {
             return await _accountRepository.SetAccountActiveStatusAsync(userId, isActive);
+        }
+
+        public async Task<List<Account>> GetAccountListAsync()
+        {
+            return await _accountRepository.GetAccountListAsync();
         }
 
     }

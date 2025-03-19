@@ -39,6 +39,7 @@ namespace Repository.Repositories
             existing.CloseTime = openingHour.CloseTime;
             existing.IsClosed = openingHour.IsClosed;
 
+            _context.OpeningHours.Update(existing);
             return await _context.SaveChangesAsync() > 0;
         }
 
