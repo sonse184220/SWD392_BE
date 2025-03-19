@@ -20,6 +20,7 @@ namespace Repository.ViewModels
             public string Ward { get; set; }
             public string Status { get; set; }
             public string? DistrictId { get; set; }
+            public List<string>? imageUrls { get; set; }
             public DistrictDTO District { get; set; }
         }
 
