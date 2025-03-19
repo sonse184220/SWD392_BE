@@ -109,22 +109,22 @@ namespace Service.Services
 Hãy trả về theo format sau, không thêm bất cứ chữ nào khác:
 [
     {{
-        ""destinationId"": 1,
+        ""destinationId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
         ""destinationName"": ""Da Nang Beach"",
         ""address"": ""Vo Nguyen Giap"",
         ""description"": ""A beautiful beach in Da Nang"",
         ""rate"": 4.8,
-        ""categoryId"": 2,
+        ""categoryId"":5b841029-2be8-4f80-ae76-95d5c3feb8d6 ,
         ""ward"": ""Phuoc My"",
         ""status"": ""Open"",
-        ""districtId"": 1,
+        ""districtId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
         ""district"": {{
-            ""districtId"": 1,
+            ""districtId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
             ""name"": ""Son Tra"",
             ""description"": ""A district in Da Nang"",
-            ""cityId"": 1,
+            ""cityId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
             ""city"": {{
-                ""cityId"": 1,
+                ""cityId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
                 ""name"": ""Da Nang"",
                 ""description"": ""A beautiful coastal city""
             }}

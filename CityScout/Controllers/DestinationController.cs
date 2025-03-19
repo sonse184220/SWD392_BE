@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CityScout.Services;
 using CityScout.DTOs;
+using Service.Interfaces;
 
 namespace CityScout.Controllers
 {
@@ -9,10 +10,11 @@ namespace CityScout.Controllers
     public class DestinationController : ControllerBase
     {
         private readonly IDestinationService _destinationService;
-
-        public DestinationController(IDestinationService destinationService)
+        private readonly ICloudinaryService _cloudinaryService;
+        public DestinationController(IDestinationService destinationService, ICloudinaryService cloudinaryService)
         {
             _destinationService = destinationService;
+            _cloudinaryService = cloudinaryService;
         }
 
         [HttpGet]
@@ -45,11 +47,17 @@ namespace CityScout.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDestination([FromBody] DestinationCreateDto dto)
+        public async Task<IActionResult> CreateDestination([FromForm] DestinationCreateDto dto)
         {
+            string imageUrl = null;
             try
             {
-                var createdId = await _destinationService.CreateAsync(dto);
+                if (dto.ImageFile != null && dto.ImageFile.Length > 0)
+                {
+                    imageUrl = await _cloudinaryService.UploadImageAsync(dto.ImageFile);
+                }
+                
+                var createdId = await _destinationService.CreateAsync(dto, imageUrl);
                 return CreatedAtAction(nameof(GetDestination), new { id = createdId }, null);
             }
             catch (Exception ex)
@@ -59,11 +67,17 @@ namespace CityScout.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDestination(string id, [FromBody] DestinationCreateDto dto)
+        public async Task<IActionResult> UpdateDestination(string id, [FromForm] DestinationCreateDto dto)
         {
+            string imageUrl = null;
             try
             {
-                await _destinationService.UpdateAsync(id, dto);
+
+                if (dto.ImageFile != null && dto.ImageFile.Length > 0)
+                {
+                    imageUrl = await _cloudinaryService.UploadImageAsync(dto.ImageFile);
+                }
+                await _destinationService.UpdateAsync(id, dto,imageUrl);
                 return NoContent();
             }
             catch (Exception ex)

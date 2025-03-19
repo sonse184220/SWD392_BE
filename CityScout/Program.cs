@@ -1,4 +1,4 @@
-using CityScout;
+﻿using CityScout;
 using CityScout.Repositories;
 using CityScout.Services;
 using FirebaseAdmin;
@@ -15,6 +15,7 @@ using Repository.Repositories;
 using Service;
 using Service.Interfaces;
 using Service.Services;
+using StackExchange.Redis;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,32 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
+builder.Services.AddScoped<IOpeningHourRepository, OpeningHourRepository>();
+builder.Services.AddScoped<IOpeningHourService, OpeningHourService>();
+//redis
+
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    var redisConnectionString = builder.Configuration["RedisFreeStyle:ConnectionString"];
+//    if (string.IsNullOrEmpty(redisConnectionString))
+//    {
+//        throw new InvalidOperationException("Redis:ConnectionString is not configured in appsettings.json or Application Settings.");
+//    }
+//    options.Configuration = redisConnectionString;
+//    options.InstanceName = "CityScout_";
+//});
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var redisConnectionString = builder.Configuration["RedisFreeStyle:ConnectionString"];
+    if (string.IsNullOrEmpty(redisConnectionString))
+    {
+        throw new InvalidOperationException("Redis:ConnectionString is not configured in appsettings.json or Application Settings.");
+    }
+    return ConnectionMultiplexer.Connect(redisConnectionString);
+});
+
 
 
 //jwt

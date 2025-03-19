@@ -49,11 +49,12 @@ public partial class CityScoutContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Account__1788CCAC3981AEF3");
+            entity.HasKey(e => e.UserId).HasName("PK__Account__1788CCAC39E9A09A");
 
             entity.ToTable("Account");
 
@@ -79,7 +80,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2B62DE4276");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2B72299A3A");
 
             entity.ToTable("Category");
 
@@ -92,7 +93,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<ChatHistory>(entity =>
         {
-            entity.HasKey(e => e.ChatId).HasName("PK__ChatHist__A9FBE62693D28C5C");
+            entity.HasKey(e => e.ChatId).HasName("PK__ChatHist__A9FBE62650BB9356");
 
             entity.ToTable("ChatHistory");
 
@@ -119,7 +120,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<City>(entity =>
         {
-            entity.HasKey(e => e.CityId).HasName("PK__City__F2D21A964639366B");
+            entity.HasKey(e => e.CityId).HasName("PK__City__F2D21A961FD1405A");
 
             entity.ToTable("City");
 
@@ -132,7 +133,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<Destination>(entity =>
         {
-            entity.HasKey(e => e.DestinationId).HasName("PK__Destinat__DB5FE4ACE0D8EC75");
+            entity.HasKey(e => e.DestinationId).HasName("PK__Destinat__DB5FE4ACE791AF25");
 
             entity.ToTable("Destination");
 
@@ -149,6 +150,7 @@ public partial class CityScoutContext : DbContext
             entity.Property(e => e.DistrictId)
                 .HasMaxLength(255)
                 .HasColumnName("DistrictID");
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.Ward).HasMaxLength(255);
 
@@ -165,7 +167,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<District>(entity =>
         {
-            entity.HasKey(e => e.DistrictId).HasName("PK__District__85FDA4A6D885298D");
+            entity.HasKey(e => e.DistrictId).HasName("PK__District__85FDA4A666C563E2");
 
             entity.ToTable("District");
 
@@ -186,7 +188,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<OpeningHour>(entity =>
         {
-            entity.HasKey(e => new { e.DestinationId, e.DayOfWeek }).HasName("PK__OpeningH__0B52A4A1E1E3DA50");
+            entity.HasKey(e => new { e.DestinationId, e.DayOfWeek }).HasName("PK__OpeningH__0B52A4A105E00327");
 
             entity.Property(e => e.DestinationId)
                 .HasMaxLength(255)
@@ -201,7 +203,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3AEB927082");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3AF355183D");
 
             entity.ToTable("Role");
 
@@ -215,7 +217,7 @@ public partial class CityScoutContext : DbContext
 
         modelBuilder.Entity<SubCategory>(entity =>
         {
-            entity.HasKey(e => e.SubCategoryId).HasName("PK__SubCateg__26BE5BF95FA18A70");
+            entity.HasKey(e => e.SubCategoryId).HasName("PK__SubCateg__26BE5BF949A5C961");
 
             entity.ToTable("SubCategory");
 

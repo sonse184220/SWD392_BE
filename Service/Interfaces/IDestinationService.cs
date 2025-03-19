@@ -7,8 +7,8 @@ namespace CityScout.Services
     {
         Task<List<Destination>> GetAllAsync();
         Task<Destination> GetByIdAsync(string id);
-        Task<string> CreateAsync(DestinationCreateDto dto);
-        Task UpdateAsync(string id, DestinationCreateDto dto);
+        Task<string> CreateAsync(DestinationCreateDto dto,string imageUrl);
+        Task UpdateAsync(string id, DestinationCreateDto dto,string imageUrl);
         Task<bool> RemoveAsync(string id);
 
         Task<List<Destination>> SearchDestinationsByNameAsync(string name);

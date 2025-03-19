@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\Repository\Repository.csproj" />
 		<ProjectReference Include="..\Service\Service.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
+	  <Folder Include="Properties\ServiceDependencies\" />
+	</ItemGroup>
 </Project>
