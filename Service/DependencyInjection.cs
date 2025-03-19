@@ -22,6 +22,7 @@ namespace Service
             service.AddScoped<IDatabaseService, SqlServerDatabaseService>();
             service.AddScoped<IRedisCacheService, RedisCacheService>();
             service.AddScoped<IGoogleSearchService, GoogleSearchService>();
+            service.AddScoped<ICloudinaryService, CloudinaryService>();
 
             return service;
         }
