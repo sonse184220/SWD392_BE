@@ -19,7 +19,7 @@ namespace CityScout.Services
         public async Task<Destination> GetByIdAsync(string id)
             => await _destinationRepository.GetByIdAsync(id);
 
-        public async Task<string> CreateAsync(DestinationCreateDto dto)
+        public async Task<string> CreateAsync(DestinationCreateDto dto,string imageUrl)
         {
             var destination = new Destination
             {
@@ -31,12 +31,13 @@ namespace CityScout.Services
                 CategoryId = dto.CategoryId,
                 Ward = dto.Ward,
                 Status = dto.Status,
-                DistrictId = dto.DistrictId
+                DistrictId = dto.DistrictId,
+                ImageUrl = imageUrl
             };
             return await _destinationRepository.CreateAsync(destination);
         }
 
-        public async Task UpdateAsync(string id, DestinationCreateDto dto)
+        public async Task UpdateAsync(string id, DestinationCreateDto dto,string imageUrl)
         {
             var destination = await _destinationRepository.GetByIdAsync(id);
             if (destination == null)
@@ -50,6 +51,7 @@ namespace CityScout.Services
             destination.Ward = dto.Ward;
             destination.Status = dto.Status;
             destination.DistrictId = dto.DistrictId;
+            destination.ImageUrl = imageUrl;
 
             await _destinationRepository.UpdateAsync(destination);
         }

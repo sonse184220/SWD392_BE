@@ -1,4 +1,6 @@
-﻿namespace CityScout.DTOs
+﻿using Microsoft.AspNetCore.Http;
+
+namespace CityScout.DTOs
 {
     public class DestinationCreateDto
     {
@@ -10,5 +12,6 @@
         public string Ward { get; set; }
         public string Status { get; set; }
         public string DistrictId { get; set; }
+        public IFormFile? ImageFile { get; set; } 
     }
 }

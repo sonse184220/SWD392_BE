@@ -25,6 +25,8 @@ public partial class Destination
 
     public string DistrictId { get; set; }
 
+    public string ImageUrl { get; set; }
+
     public virtual Category Category { get; set; }
 
     public virtual District District { get; set; }
