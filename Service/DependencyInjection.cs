@@ -5,6 +5,7 @@ using Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,7 @@ namespace Service
             service.AddScoped<AIService>();
             service.AddScoped<IDatabaseService, SqlServerDatabaseService>();
             service.AddScoped<IRedisCacheService, RedisCacheService>();
+            service.AddScoped<IGoogleSearchService, GoogleSearchService>();
 
             return service;
         }
