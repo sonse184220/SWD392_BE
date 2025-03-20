@@ -52,29 +52,28 @@ namespace CityScout.Controllers
 
                 // Verify column headers (first row of data)
                 var expectedHeaders = new List<string>
-                {
-                    "DestinationID", "DestinationName", "Address", "Description", "Rate",
-                    "CategoryID", "Ward", "Status", "CategoryName", "DistrictName",
-                    "OpenTime", "CloseTime"
-                };
+        {
+            "DestinationID", "DestinationName", "Address", "Description", "Rate",
+            "CategoryID", "Ward", "Status", "CategoryName", "DistrictName",
+            "OpenTime", "CloseTime", "ImageUrl" // Added ImageUrl
+        };
                 var actualHeaders = data[0]; // First row contains headers
                 if (!expectedHeaders.SequenceEqual(actualHeaders))
                 {
                     _logger.LogWarning("Column headers do not match expected order. Expected: {Expected}, Actual: {Actual}",
                         string.Join(", ", expectedHeaders), string.Join(", ", actualHeaders));
-                    // Optionally, you could throw an exception or handle this differently
                 }
 
                 // Generate summary line from the DestinationName column (index 1)
                 var names = data.Skip(1).Select(row => row[1]); // Skip headers, take DestinationName
                 var finalSummary = names.Any()
                     ? $"Yes, there are {names.Count()} interesting locations: {string.Join(", ", names)}."
-                    : summary; // Fallback to AI summary if no names
+                    : summary;
 
                 // Structure results for the frontend
                 var results = data.Skip(1).Select(row => new
                 {
-                    DestinationID = row[0],
+                    destinationId = row[0], // Changed to lowercase
                     DestinationName = row[1],
                     Address = row[2],
                     Description = row[3],
@@ -85,7 +84,8 @@ namespace CityScout.Controllers
                     CategoryName = row[8],
                     DistrictName = row[9],
                     OpenTime = row.ElementAtOrDefault(10),
-                    CloseTime = row.ElementAtOrDefault(11)
+                    CloseTime = row.ElementAtOrDefault(11),
+                    ImageUrl = row.ElementAtOrDefault(12) // Added ImageUrl
                 }).ToList();
 
                 return Ok(new
