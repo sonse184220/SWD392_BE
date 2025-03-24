@@ -117,6 +117,14 @@ Hãy trả về theo format sau, không thêm bất cứ chữ nào khác:
         ""categoryId"":5b841029-2be8-4f80-ae76-95d5c3feb8d6 ,
         ""ward"": ""Phuoc My"",
         ""status"": ""Open"",
+        ""events"": [
+            ""Fireworks Festival in June"",
+            ""Beach Festival in July""
+        ],
+        ""cultural"": {{
+            ""foods"": [""Mi Quang"", ""Banh Xeo""],
+            ""places"": [""Linh Ung Pagoda"", ""Dragon Bridge""]
+        }},
         ""districtId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,
         ""district"": {{
             ""districtId"": 15047cdf-14fc-4dd2-a59f-6569ae4bc5f7,

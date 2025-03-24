@@ -21,7 +21,9 @@ namespace Repository.ViewModels
             public string Status { get; set; }
             public string? DistrictId { get; set; }
             public List<string>? imageUrls { get; set; }
-            public DistrictDTO District { get; set; }
+            public DistrictDTO? District { get; set; }
+            public List<string> Events { get; set; } = new();
+            public CulturalDTO? Cultural { get; set; } 
         }
 
         public class DistrictDTO
@@ -39,6 +41,16 @@ namespace Repository.ViewModels
             public string Name { get; set; }
             public string Description { get; set; }
         }
+       
+        public class CulturalDTO
+        {
+            public List<string>? Foods { get; set; } = new();
+            public List<string>? Places { get; set; } = new();
+        }
+
+      
 
     }
+
+    
 }
