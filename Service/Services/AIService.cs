@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.AI;
+﻿using Firebase.Database;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Service.ChatModel;
 using System.Text;
@@ -10,18 +11,38 @@ namespace Service.Services
     public class AIService
     {
         private readonly IConfiguration _config;
-        private readonly IChatClient _aiClient;
-
+        private  IChatClient _aiClient;
+        private readonly string firebaseurl;
         public AIService(IConfiguration config)
         {
             _config = config;
-            string endpoint = _config.GetValue<string>("Ollama:Endpoint");
-            string model = _config.GetValue<string>("Ollama:Model");
-            _aiClient = new OllamaChatClient(endpoint, model);
+            //string endpoint = _config.GetValue<string>("Ollama:Endpoint");
+            //string model = _config.GetValue<string>("Ollama:Model");
+            firebaseurl = config["Firebase:FBDataBase"];
+            //_aiClient = new OllamaChatClient(endpoint, model);
         }
 
+
+        private async Task<string> GetFireBaseKeyAsync(string key)
+        {
+            string firebaseDatabaseUrl = firebaseurl.TrimEnd('/');
+            var firebaseClient = new FirebaseClient(firebaseDatabaseUrl);
+
+            var getConfig = await firebaseClient
+                .Child(key)
+                .OnceSingleAsync<string>();
+
+            if (getConfig == null)
+                throw new Exception("config not found in real time db");
+
+            return getConfig.Trim();
+        }
         public async Task<(string Summary, string Query)> GetAIResponse(string userPrompt, DatabaseSchema dbSchema)
         {
+            string endpoint = await GetFireBaseKeyAsync("ollamaEndPoint");
+            string model = await GetFireBaseKeyAsync("aiModel");
+            _aiClient = new OllamaChatClient(endpoint, model);
+
             var builder = new StringBuilder();
 
             builder.AppendLine("You are a SQL query generation assistant for a SQL Server database. Your task is to generate a SQL query based on the provided database schema and user prompt.");
