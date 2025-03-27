@@ -104,5 +104,16 @@ namespace Service.Services
             return accessToken;
 
         }
+        public async Task<int> PromoteToAdmin(string userId)
+        {
+            var role = await _roleRepository.GetRoleByNameAsync(UserRole.Admin.ToString());
+            if (role == null)
+            {
+                throw new Exception("Admin role not exist");
+            }
+
+            return await _accountRepository.UpdateUserToAdmin(userId, role.RoleId);
+
+        }
     }
 }

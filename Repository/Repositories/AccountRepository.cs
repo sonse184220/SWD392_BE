@@ -87,5 +87,21 @@ namespace Repository.Repositories
         {
             return await GetAllAsync();
         }
+        public async Task<int> UpdateUserToAdmin(string userId,int roleId)
+        {
+            var user = await GetByIdAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            if (user != null)
+            {
+                user.RoleId = roleId;
+            }
+
+            return await UpdateAsync(user);
+
+        }
+
     }
 }

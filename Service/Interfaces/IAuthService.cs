@@ -11,6 +11,7 @@ namespace Service.Interfaces
     public interface IAuthService
     {
         Task<AccountViewModel> AuthenticateWithFirebaseAsync(FirebaseTokenRequest request);
+        Task<int> PromoteToAdmin(string userId);
 
     }
 }

@@ -17,6 +17,7 @@ namespace Repository.Interfaces
         Task<ProfileResponse> GetProfileByIdAsync(string userId);
         Task<bool> SetAccountActiveStatusAsync(string userId, bool isActive);
         Task<List<Account>> GetAccountListAsync();
+        Task<int> UpdateUserToAdmin(string userId, int roleId);
 
 
     }
