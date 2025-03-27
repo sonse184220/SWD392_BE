@@ -54,8 +54,8 @@ namespace CityScout.Controllers
                 var expectedHeaders = new List<string>
         {
             "DestinationID", "DestinationName", "Address", "Description", "Rate",
-            "CategoryID", "Ward", "Status", "CategoryName", "DistrictName",
-            "OpenTime", "CloseTime", "ImageUrl" // Added ImageUrl
+            "CategoryID", "Ward", "Status", "CategoryName", "DistrictName"
+            , "ImageUrl" // Added ImageUrl
         };
                 var actualHeaders = data[0]; // First row contains headers
                 if (!expectedHeaders.SequenceEqual(actualHeaders))
@@ -83,9 +83,7 @@ namespace CityScout.Controllers
                     Status = row[7],
                     CategoryName = row[8],
                     DistrictName = row[9],
-                    OpenTime = row.ElementAtOrDefault(10),
-                    CloseTime = row.ElementAtOrDefault(11),
-                    ImageUrl = row.ElementAtOrDefault(12) // Added ImageUrl
+                    ImageUrl = row.ElementAtOrDefault(10) // Added ImageUrl
                 }).ToList();
 
                 return Ok(new
