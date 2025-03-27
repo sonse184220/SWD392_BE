@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using Service.Services;
 
 namespace CityScout.Controllers
 {
@@ -10,10 +11,13 @@ namespace CityScout.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IProfileService _profileService;
+        private readonly IAuthService _authService;
 
-        public AdminController(IProfileService profileService)
+
+        public AdminController(IProfileService profileService, IAuthService authService)
         {
             _profileService = profileService;
+            _authService = authService;
         }
 
         [HttpPut("activate/{userId}")]
@@ -75,6 +79,24 @@ namespace CityScout.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+        [HttpPost("promote-to-admin")]
+        public async Task<IActionResult> PromoteToAdmin(string userId)
+        {
+            try
+            {
+                var result = await _authService.PromoteToAdmin(userId);
+                if (result > 0)
+                {
+                    return Ok("User updated to admin");
+                }
+                return BadRequest(new { message = "Update failed" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
