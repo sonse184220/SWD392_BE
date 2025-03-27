@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.ViewModels
 {
     public static class DependencyInjection
     {

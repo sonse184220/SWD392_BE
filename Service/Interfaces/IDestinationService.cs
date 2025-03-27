@@ -1,5 +1,5 @@
-﻿using CityScout.DTOs;
-using Repository.Models;
+﻿using Repository.Models;
+using Repository.ViewModels;
 
 namespace CityScout.Services
 {

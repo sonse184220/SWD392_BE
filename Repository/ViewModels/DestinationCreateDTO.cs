@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace CityScout.DTOs
+namespace Repository.ViewModels
 {
     public class DestinationCreateDto
     {

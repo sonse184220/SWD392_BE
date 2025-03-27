@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CityScout.Services;
-using CityScout.DTOs;
+using Repository.ViewModels;
 
 namespace CityScout.Controllers
 {

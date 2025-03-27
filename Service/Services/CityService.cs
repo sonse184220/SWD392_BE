@@ -1,6 +1,6 @@
-﻿using CityScout.DTOs;
-using Repository.Interfaces;
+﻿using Repository.Interfaces;
 using Repository.Models;
+using Repository.ViewModels;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;

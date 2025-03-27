@@ -1,4 +1,4 @@
-﻿namespace CityScout.DTOs
+﻿namespace Repository.ViewModels
 {
     public class CategoryCreateDto
     {
