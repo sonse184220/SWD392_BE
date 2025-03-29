@@ -26,19 +26,20 @@ namespace CityScout.Controllers
             _cache = cache;
             _googleSearchService = googleSearchService;
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("get-recommendation")]
         public async Task<IActionResult> GetRecommendationFromAi([FromBody] ChatRequest request)
         {
-            //if (string.IsNullOrEmpty(request.message)){
-            //    return BadRequest("Message can not be null or empty");
-            //}
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userId))
-            //{
-            //    return Unauthorized();
-            //}
-            var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
+            if (string.IsNullOrEmpty(request.message))
+            {
+                return BadRequest("Message can not be null or empty");
+            }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            //var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
             string cacheKey = $"recommendation:{userId}";
 
 
@@ -70,6 +71,7 @@ namespace CityScout.Controllers
 
             return Ok(message);
         }
+        [Authorize]
         [HttpPost("send-message")]
         public async Task<IActionResult> ChatWithAI([FromBody] ChatRequest request)
         {
@@ -79,7 +81,7 @@ namespace CityScout.Controllers
             {
                 return BadRequest("Message can not be null or empty");
             }
-            
+
             //var cachedResponse = await _cache.GetCacheAsync<string>(cacheKey);
             //if (cachedResponse != null)
             //{
@@ -88,12 +90,12 @@ namespace CityScout.Controllers
             //if (string.IsNullOrEmpty(request.message)){
             //    return BadRequest("Message can not be null or empty");
             //}
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userId))
-            //{
-            //    return Unauthorized();
-            //}
-            var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            //var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
             string cacheKey = $"chat:{userId}";
 
 
@@ -119,16 +121,16 @@ namespace CityScout.Controllers
             return Ok(message);
             //return Ok(apiResponse);
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet("get-messages-recommendation")]
         public async Task<IActionResult> GetAllMessages()
         {
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userId))
-            //{
-            //    return Unauthorized();
-            //}
-            var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            //var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
             string cacheKey = $"recommendation:{userId}";
             var messages = await _cache.ListRangeAsync(cacheKey, 0, -1); 
 
@@ -139,15 +141,16 @@ namespace CityScout.Controllers
             var parsedMessage = messages.Select(m => JsonSerializer.Deserialize<Repository.ViewModels.GetRecommendationChatVM>(m)).ToList();
             return Ok(parsedMessage);
         }
+        [Authorize]
         [HttpGet("get-messages-chat")]
         public async Task<IActionResult> GetAllChat()
         {
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userId))
-            //{
-            //    return Unauthorized();
-            //}
-            var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            //var userId = "0d8fcbdb-9183-4f9d-af22-9904314a288f";
             string cacheKey = $"chat:{userId}";
             var messages = await _cache.ListRangeAsync(cacheKey, 0, -1);
 
